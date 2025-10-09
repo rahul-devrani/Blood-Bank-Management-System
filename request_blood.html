@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Request Blood - BloodBridge</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header><h1><a href="/home">BloodBridge: Connecting Donors & Recipients</a></h1></header>
+    <nav><div class="container"><ul><li>Welcome, {{ session.name }}!</li></ul></div></nav>
+    <div class="container content">
+        <h2>Request Blood</h2>
+        <p>Fill in the patient details below. You will be shown a list of compatible donors.</p>
+        <form action="/request_blood" method="POST">
+            <input type="text" name="patient_name" placeholder="Patient's Full Name" required>
+            
+            <select name="hospital_id" id="hospital_select" required onchange="checkHospitalSelection()">
+                <option value="">Select Hospital</option>
+                {% for hospital in hospitals %}
+                    <option value="{{ hospital.hospital_id }}">{{ hospital.name }}</option>
+                {% endfor %}
+                <option value="other">My Hospital is Not Listed</option>
+            </select>
+
+            <div id="other_hospital_details" style="display: none; display:flex; flex-direction:column; gap: 15px;">
+                <input type="text" name="new_hospital_name" placeholder="Enter Hospital Name">
+                <input type="text" name="new_hospital_address" placeholder="Enter Hospital Address (optional)">
+            </div>
+
+            <select name="blood_group" required>
+                <option value="">Select Required Blood Group</option>
+                <option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option>
+                <option value="B-">B-</option><option value="O+">O+</option><option value="O-">O-</option>
+                <option value="AB+">AB+</option><option value="AB-">AB-</option>
+            </select>
+            
+            <input type="number" name="quantity" placeholder="Quantity (in units)" value="1" min="1" required>
+
+            <button type="submit">Find Donors</button>
+        </form>
+    </div>
+    
+    <script>
+        function checkHospitalSelection() {
+            var select = document.getElementById('hospital_select');
+            var otherDetails = document.getElementById('other_hospital_details');
+            if (select.value === 'other') {
+                otherDetails.style.display = 'flex';
+            } else {
+                otherDetails.style.display = 'none';
+            }
+        }
+    </script>
+
+    <footer><p>Made By Team VitalX - DBMS-V-T233</p></footer>
+</body>
+</html>
