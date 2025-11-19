@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - BloodBridge</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/">BloodBridge: Connecting Donors & Recipients</a></h1>
+    </header>
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-msg flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h2>Welcome, {{ session.name }}!</h2>
+        <p>This is your personal dashboard. From here you can manage your donor status and blood requests.</p>
+        
+        <div class="dashboard-section">
+            <h3>Donor Status</h3>
+            {% if donor_status %}
+                <p>You are registered as a donor. Your blood group is <strong>{{ donor_status.blood_group }}</strong>.</p>
+                {% if donor_status.is_active %}
+                    <p>Your status is: <strong>Active</strong>. You are visible in search results.</p>
+                    <a href="/deactivate_donor" class="button">Remove Me as a Donor</a>
+                {% else %}
+                     <p>Your status is: <strong>Inactive</strong>. You are not visible in search results.</p>
+                     <a href="/activate_donor" class="button">Reactivate my Donor Profile</a>
+                {% endif %}
+            {% else %}
+                <p>You are not yet registered as a donor.</p>
+                <a href="/become_donor" class="button">Become a Donor</a>
+            {% endif %}
+        </div>
+
+        <div class="dashboard-section">
+            <h3>My Blood Requests</h3>
+            <a href="/request_blood" class="button">Request Blood</a>
+            {% if requests %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Blood Group</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for req in requests %}
+                        <tr>
+                            <td>{{ req.patient_name }}</td>
+                            <td>{{ req.required_blood_group }}</td>
+                            <td>{{ req.status }}</td>
+                            <td><a href="/delete_request/{{ req.request_id }}" class="button">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You have no active blood requests.</p>
+            {% endif %}
+        </div>
+    </div>
+    <footer>
+        <p>Made By Team VitalX - DBMS-V-T233</p>
+    </footer>
+</body>
+</html>

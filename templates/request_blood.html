@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Request Blood - BloodBridge</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header><h1><a href="{{ url_for('home') }}">BloodBridge: Connecting Donors & Recipients</a></h1></header>
+
+<nav>
+    <div class="container"><ul><li>Welcome, {{ session.name }}!</li></ul></div>
+</nav>
+
+<div class="container content">
+    <h2>Request Blood</h2>
+    <p>Fill in the patient details below.</p>
+    
+    <form action="{{ url_for('request_blood') }}" method="POST">
+        <input type="text" name="patient_name" placeholder="Patient's Full Name" required>
+
+        <select name="hospital_id" id="hospital_select" required onchange="checkHospitalSelection()">
+            <option value="">Select Hospital (Sorted by State)</option>
+            {% for hospital in hospitals %}
+                <option value="{{ hospital.hospital_id }}">{{ hospital.name }} ({{ hospital.city }}, {{ hospital.state }})</option>
+            {% endfor %}
+            <option value="other">My Hospital is Not Listed</option>
+        </select>
+
+        <div id="other_hospital_details" style="display: none; flex-direction:column; gap:15px;">
+            <p><strong>Enter New Hospital Details:</strong></p>
+            <input type="text" name="new_hospital_name" placeholder="Enter Hospital Name">
+            <input type="text" name="new_hospital_address" placeholder="Enter Hospital Address (optional)">
+            <input type="text" name="new_hospital_city" placeholder="Enter Hospital City">
+            <input type="text" name="new_hospital_state" placeholder="Enter Hospital State">
+        </div>
+        
+        <p style="margin-top: 20px;"><strong>Where is the blood needed?</strong></p>
+        <input type="text" name="city" placeholder="City where blood is needed (e.g., Meerut)" required>
+        <input type="text" name="state" placeholder="State where blood is needed (e.g., Uttar Pradesh)" required>
+
+        <select name="blood_group" required style="margin-top: 20px;">
+            <option value="">Select Required Blood Group</option>
+            <option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option>
+            <option value="B-">B-</option><option value="O+">O+</option><option value="O-">O-</option>
+            <option value="AB+">AB+</option><option value="AB-">AB-</option>
+        </select>
+
+        <input type="number" name="quantity" placeholder="Quantity (in units)" min="1" required>
+
+        <button type="submit">Find Donors</button>
+    </form>
+</div>
+
+<script>
+function checkHospitalSelection() {
+    const select = document.getElementById('hospital_select');
+    const otherDetails = document.getElementById('other_hospital_details');
+    otherDetails.style.display = select.value === 'other' ? 'flex' : 'none';
+}
+</script>
+
+<footer><p>Made By Team VitalX - DBMS-V-T233</p></footer>
+</body>
+</html>

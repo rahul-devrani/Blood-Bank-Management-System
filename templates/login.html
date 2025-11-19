@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - BloodBridge</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="heading">
+      <h1>BloodBridge</h1>
+      <p>Connecting Donors & Recipients</p>
+    </div>
+
+    <div class="login-box">
+      <h2>Login</h2>
+
+      {% if error_message %}
+        <div class="flash-msg flash-error">{{ error_message }}</div>
+      {% endif %}
+
+      <form action="/" method="POST">
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+
+      <p>Don't have an account? <a href="/register">Sign Up Here</a></p>
+    </div>
+
+    <footer><p>Made By Team VitalX - DBMS-V-T233</p></footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Become a Donor - BloodBridge</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header><h1><a href="/home">BloodBridge: Connecting Donors & Recipients</a></h1></header>
+    <nav><div class="container"><ul><li>Welcome, {{ session.name }}!</li></ul></div></nav>
+    <div class="container content">
+        <h2>Register as a Donor</h2>
+        <p>Please provide your details below to be listed as an available donor.</p>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash-msg flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="/become_donor" method="POST">
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="number" name="age" placeholder="Age" required min="18" max="65">
+            
+            <select name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            
+            <select name="blood_group" required>
+                <option value="">Select Blood Group</option>
+                <option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option>
+                <option value="B-">B-</option><option value="O+">O+</option><option value="O-">O-</option>
+                <option value="AB+">AB+</option><option value="AB-">AB-</option>
+            </select>
+            
+            <input type="tel" name="phone_no" placeholder="10-Digit Phone Number" required 
+                   pattern="[0-9]{10}" title="Please enter a 10-digit mobile number.">
+            
+            <input type="text" name="address_city" placeholder="Your City (e.g., Dehradun)" required>
+            <input type="text" name="state" placeholder="Your State (e.g., Uttarakhand)" required>
+            
+            <label for="last_donation_date">Last Donation Date (optional):</label>
+            <input type="date" name="last_donation_date">
+            <button type="submit">Submit My Donor Profile</button>
+        </form>
+    </div>
+    <footer><p>Made By Team VitalX - DBMS-V-T233</p></footer>
+</body>
+</html>
