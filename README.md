@@ -120,7 +120,7 @@ The project follows a three-tier architecture:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/bloodbridge.git
+git clone https://github.com/rahul-devrani/bloodbridge.git
 
 # Navigate to project folder
 cd bloodbridge
