@@ -120,13 +120,7 @@ The project follows a three-tier architecture:
 
 ```bash
 # Clone the repository
-git clone https://github.com/rahul-devrani/bloodbridge.git
-
 # Navigate to project folder
-cd bloodbridge
-
 # Install dependencies
-pip install flask
-
 # Run the application
 python app.py
